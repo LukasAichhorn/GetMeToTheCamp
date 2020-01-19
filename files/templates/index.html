@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="container">	
+        
+      <div class="jumbotron mt-3 shadow-sm">
+  <h1 class="display-4">Welcome to GetMeToTheCamp!</h1>
+  <p class="lead">This webservice helps you as a scout leader to organise shared transportation, as well as makes finding available seats a piece of cake.</p>
+  <hr class="my-4">
+  {%if current_user.is_authenticated%}
+  <p>Hello, {{current_user.username}}</p>
+  {%else%}
+  <p>Hello, stranger, please log in or create a new account</p>
+  {%endif%}
+  <div class="row">
+        <div class="col">
+        {%if current_user.is_authenticated%}
+        <button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#collapseCreateCampForm" aria-expanded="false" aria-controls="collapseExample">
+        create a new Camp
+        </button>
+        {%else%}
+        
+        <a class="btn btn-primary w-100" href="{{url_for('login')}}" role="button">login</a>
+        
+        {%endif%}
+        </div>
+        <div class="col">
+        {%if current_user.is_authenticated%}
+        <button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#collapseAvailableCamps" aria-expanded="false" aria-controls="collapseExample">
+        browse available Camps
+        </button>
+        {%else%}
+        
+        <a class="btn btn-primary w-100" href="{{url_for('signIn')}}" role="button">create a new account</a>
+        
+        {%endif%}
+        </div>
+</div>
+
+  
+</div>       
+        
+
+        <div class="container collapse" id="collapseCreateCampForm">
+        {% if current_user.is_authenticated %}
+                {% include "create_camp.html" %}
+        </div>
+        
+
+        <div class="container collapse" id="collapseAvailableCamps">
+        {% if all_camps %}
+                {%for camp in all_camps%}
+                {%include "show_camp.html"%}
+                {%endfor%}
+        {%endif%}
+        </div>
+        
+        {% endif %}
+       
+</div>      
+{% endblock %}
+

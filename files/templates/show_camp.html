@@ -1,0 +1,27 @@
+<div class="card m-2 myshadow">
+	<div class="card-body">
+		<h4 class="card-title"><a href="{{ url_for('camp', campId = camp.id) }}"> {{camp.name}} </a></h4>
+
+		<div class="card-text">
+			<div class="row">
+				<div class="col">
+					This Camp is organised by:<p class="font-weight-bold"> {{camp.group}}</p>
+					and takes places at:<p class="font-weight-bold"> {{camp.location}}</p>
+				</div>
+				<div class="col">
+				<div class="row">
+					<h5 class="col m-2">{{camp.start_date}} </h5>
+					<h5 class="col m-2">{{camp.end_date}} </h5>
+				</div>
+				</div>
+
+				<div class="col">
+					{%if current_user.id == camp.owner_id%}
+					<a class="btn btn-outline-warning float-right " href="{{url_for('delete',table='Camp',elem_id=camp.id)}}" role="button">delete Camp</a>
+					{%endif%}
+        		</div>
+        	</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+		
+        
+<div class="container">
+<div class="jumbotron mt-3 shadow-sm"> 
+        <h1 class="display-4"> Welcome <b>{{current_user.username}}</b> to your profile page! </h1>
+        <hr class="my-4">This is your profile page.</p>
+        
+        <div class="row">
+                <div class="col">
+                        <button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#collapseShowMyCamps" aria-expanded="false" aria-controls="collapseExample">
+                        Show Camps you Organise
+                        </button>
+                </div>
+                <div class="col">
+                        <button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#collapseShowMyCars" aria-expanded="false" aria-controls="collapseExample">
+                        show cars and seats you offer
+                        </button>
+                </div>
+        </div>
+</div>
+
+{%for req in reqs%}
+{% if req.requestor_id == current_user.id or req.owner_id == current_user.id%}
+<div class="card m-2">
+        <div class="row">
+
+
+                <div class="col">
+                        {% if req.requestor_id == current_user.id and req.status_pending%}       
+                                this request is made by me  and open.
+                        {% elif req.requestor_id == current_user.id and req.status_accepted %}
+                                this request is made by me and closed
+                        {% elif req.owner_id == current_user.id and req.status_pending %}
+                                someone else reserved one of your seats
+                        {% elif req.owner_id == current_user.id and req.status_accepted %}
+                                someone else reserved one of your seats an you
+                        {%endif%}
+                </div>
+                <div class="col">
+                        {% if req.requestor_id == current_user.id and req.status_pending%}  
+                                <a class="btn btn-secondary btn-sm w-100" href="" role="button">pending</a>
+                        {% elif req.requestor_id == current_user.id and req.status_accepted %}
+                                <a class="btn btn-success  btn-sm w-100" href="" role="button">accepted</a>
+                        {% elif req.owner_id == current_user.id and req.status_pending %}
+                                <a class="btn btn-warning  btn-sm w-100" href="{{url_for('update',table='ReservationReq',elem_id=req.id)}}" role="button">accept this reservation</a>
+                        {% elif req.owner_id == current_user.id and req.status_accepted %}
+                                <a class="btn btn-success  btn-sm w-100" href="" role="button">accepted</a>
+                        {%endif%}
+                </div>
+        </div>
+</div>
+
+{%endif%}
+{%endfor%}
+
+
+
+
+
+        <div class="container collapse" id="collapseShowMyCars">
+                {% if cars %}	
+                	{% for car in cars %}
+        		{%include "show_car.html"%}
+                	{%endfor%}
+                {%else%}
+                	<p>You have no Cars listed at the moment</p>
+                {% endif %}
+        </div>
+
+        <div class="container collapse" id="collapseShowMyCamps">
+                {% if user_camps %}
+                        {%for camp in user_camps%}
+                        {%include "show_camp.html"%}
+                        {%endfor%}
+                {%else%}
+                        <p>you don´t organize a camp!</p>
+                {%endif%}
+        </div>
+ </div>
+     
+     
+
+{% endblock %}
+ 

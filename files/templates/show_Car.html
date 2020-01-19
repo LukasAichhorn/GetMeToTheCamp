@@ -1,0 +1,54 @@
+<div class="card m-2 shadow-sm">
+	<div class="card-body">
+	<div class="row">
+	<div class="col-9 m-2">
+	<h4 class="card-title">
+	
+	A Car is starting at {{car.starting_location}}. 
+
+	</h4>
+	</div>
+	<div class="col float-right">
+		
+		{%if current_user.id == car.owner_id%}
+        <a class="btn btn-warning btn-sm " href="{{url_for('delete',table='Car',elem_id=car.id)}}" role="button">delete your Car!</a>
+        {%endif%}
+        
+	</div>
+	</div>
+	</div>
+
+	<div class="container d-flex flex-row">
+						{%for seat in seats%}
+                        {%if car.id == seat.related_car%}
+                        	<div class="card p-2 m-2">
+	                        	<h4 class="card-title text-center">
+	                        		seat
+	                        	</h4>
+
+	                                {%if seat.available and car.owner_id == current_user.id%}
+	                                <div><a class="btn btn-success  btn-sm w-100" href="" 
+	                                role="button">you own this seat</a></div>
+	                                
+	                                {%elif seat.available and car.owner_id != current_user.id%}
+	                                <div><a class="btn btn-success  btn-sm w-100" href="{{url_for('update',table='Seat',elem_id=seat.id)}}" 
+	                                role="button">reserve this seat</a></div>
+	                                
+	                                {%elif seat.taken%}
+	                                <div><a class="btn btn-danger btn-sm w-100" href="" role="button">taken</a></div>
+	                                {%elif seat.reserved%}
+	                               <div> <a class="btn btn-secondary btn-sm w-100" href="" role="button">reserved</a> </div>
+	                               {%elif seat.reserved and seat.related_user == current_user.id%}
+	                               <div> <a class="btn btn-secondary btn-sm w-100" href="" role="button">reserved by you</a> </div>     
+	                                {%endif%}
+	                                {%if current_user.id == car.owner_id%}
+	        						<div><a class="btn btn-outline-warning btn-sm w-100" href="{{url_for('delete',table='Seat',elem_id=seat.id)}}" role="button">delete</a></div>
+	        						{%endif%}
+	        					
+        					</div>
+                        {%endif%}
+                		{%endfor%}               
+    </div>            		
+</div>
+
+

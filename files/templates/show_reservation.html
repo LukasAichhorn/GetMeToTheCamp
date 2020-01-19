@@ -1,0 +1,48 @@
+<div class="card m-2 shadow-sm">
+	<div class="card-body">
+	<div class="row">
+	<div class="col m-2">
+<h4 class="card-title">
+	
+	A Car is starting at {{car.starting_location}}. 
+
+</h4>
+</div>
+	<div class="col">
+		
+		{%if car.id in seats.related_car %}
+		<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseShowSeats" aria-expanded="false" aria-controls="collapseExample">
+        Check Available seats
+        </button>
+        
+        {%else%}
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseShowSeats" aria-expanded="false" aria-controls="collapseExample">
+        no more seats are available
+        </button>
+        {%endif%}
+
+       {%if current_user.id == car.owner_id%}
+        <a class="btn btn-warning " href="{{url_for('delete',table='Car',elem_id=car.id)}}" role="button">delete</a>
+        {%endif%}
+        
+	</div>
+	</div>
+</div>
+
+
+                        {%if car.id == seat.related_car%}
+                    
+                                {%if seat.available%}
+                                status:available
+                                {%elif seat.taken%}
+                                status:taken
+                                {%elif seat.reserved%}
+                                status:reserved                                
+                                {%endif%}
+                        
+                        
+                        {%endif%}
+                {%endfor%}               
+
+
+

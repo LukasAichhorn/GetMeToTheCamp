@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+
+<div class="container">
+
+ <div class="jumbotron mt-3 shadow-sm">       
+
+<h1 class="display-4">{{camp.name}}</h1>
+<hr class="my-4">
+
+<p>organized by: <b>{{camp.group}}</b></p>
+<p>Takes places at: <b>{{camp.location}}</b> from: <b>{{camp.start_date}}</b> to: <b>{{camp.end_date}}</b> </p>
+
+<div class="row">
+        <div class="col">
+        <button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#collapseCreateCar" aria-expanded="false" aria-controls="collapseExample">
+        Add a Car to the list
+        </button>
+        </div>
+        <div class="col">
+        <button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#collapseShowCars" aria-expanded="false" aria-controls="collapseExample">
+        browse available cars
+        </button>
+        </div>
+</div>
+
+</div>
+
+
+<div class="container collapse" id="collapseCreateCar">
+{% include "create_car.html" %}
+</div>		
+        
+        
+<div class="container collapse" id="collapseShowCars">
+{%if cars %}
+        {%for car in cars%}
+        {% include "show_car.html" %}
+        {%endfor%}
+{%else%}
+<div class="alert alert-info" role="alert">No cars have been posted so far!</div>
+{%endif%}    
+{% endblock %}
+ 
